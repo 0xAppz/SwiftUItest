@@ -13,6 +13,8 @@ struct ContentView: View {
             BackgroundView(topColor: .blue, bottomColor: .white)
             VStack {
                 CityTextView(cityName: "Cupertino, CA")
+                CityTextView(cityName: "Today")
+                    .font(.system(size: 32, weight: .medium, design: .default))
                 
                 MainWeatherStatusView(imageName: "cloud.sun.fill", temperature:76)
                     
