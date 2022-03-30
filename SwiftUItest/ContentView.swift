@@ -8,15 +8,23 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @State private var isNight = false
+    
     var body: some View {
         ZStack {
-            BackgroundView(topColor: .blue, bottomColor: .white)
+            BackgroundView(topColor: isNight ? .black : .cyan,
+                           bottomColor: isNight ? .black : .blue,
+                           middleColor: isNight ? .gray : .cyan)
             VStack {
-                CityTextView(cityName: "Cupertino, CA")
-                CityTextView(cityName: "Today")
+                CityTextView(cityName: "Palm Desert, CA")
+                    .padding(.top, 3.0)
+                CityTextView(cityName: isNight ? "Tonight" : "Today")
+                    .padding(.vertical, -10.0)
                     .font(.system(size: 32, weight: .medium, design: .default))
                 
-                MainWeatherStatusView(imageName: "cloud.sun.fill", temperature:76)
+                MainWeatherStatusView(imageName: isNight ? "moon.fill" : "cloud.sun.fill", temperature:76)
+                    .padding(.vertical, -3.0)
                     
                 HStack(spacing: 21) {
                     WeatherDayView(dayOfWeek: "TUE",
@@ -45,9 +53,9 @@ struct ContentView: View {
                 Spacer()
                 
                 Button {
-                    print("tapped")
+                    isNight.toggle()
                 } label: {
-                    WeatherButton(title: "Change Day Time",
+                    WeatherButton(title: isNight ? "Change To Day Time" : "Change To Night Time",
                                   textColor: .blue,
                                   backgroundColor: .white)
                 
@@ -97,9 +105,10 @@ struct WeatherDayView: View {
 struct BackgroundView: View {
     var topColor: Color
     var bottomColor: Color
+    var middleColor: Color
     
     var body: some View {
-        LinearGradient(gradient: Gradient(colors: [topColor, bottomColor]),
+        LinearGradient(gradient: Gradient(colors: [topColor, bottomColor, middleColor]),
                        startPoint: .topLeading,
                        endPoint: .bottomLeading)
         .edgesIgnoringSafeArea(.all)
